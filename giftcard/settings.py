@@ -38,7 +38,11 @@ SECRET_KEY = 'django-insecure-b+a^su%u74^gu542aav-8y%6vgxa0cmdt8na7yh_mo6d+pl&c1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "giftcard-ycni.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
