@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Händler-Login</title>
+</head>
+<body>
+    <h1>Händler-Login</h1>
+
+    {% if messages %}
+        <ul style="color: red;">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label>Benutzername:
+                <input type="text" name="username" required>
+            </label>
+        </p>
+        <p>
+            <label>Passwort:
+                <input type="password" name="password" required>
+            </label>
+        </p>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+

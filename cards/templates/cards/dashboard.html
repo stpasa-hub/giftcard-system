@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Händler-Dashboard</title>
+</head>
+<body>
+    <h1>Willkommen, {{ merchant.name }}</h1>
+    <p><a href="{% url 'merchant_logout' %}">Logout</a></p>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+
+    <h2>Kartenguthaben prüfen</h2>
+    <form method="post" action="{% url 'balance' %}">
+        {% csrf_token %}
+        {{ balance_form.as_p }}
+        <button type="submit">Guthaben anzeigen</button>
+    </form>
+
+    <hr>
+
+    <h2>Betrag einlösen</h2>
+    <form method="post" action="{% url 'redeem' %}">
+        {% csrf_token %}
+        {{ redeem_form.as_p }}
+        <button type="submit">Einlösen</button>
+    </form>
+
+    <hr>
+
+    <h2>QR-Scanner (Kartencode automatisch eintragen)</h2>
+    <p>
+        Kamera zulassen, dann wird der erkannte QR-Inhalt
+        automatisch in die Kartencode-Felder übernommen.
+    </p>
+
+    <div id="qr-reader" style="width: 320px;"></div>
+    <div id="qr-result"></div>
+
+    <hr>
+
+    <h2>Letzte Transaktionen</h2>
+    <ul>
+        {% for tx in transactions %}
+            <li>
+                {{ tx.created_at }} – {{ tx.amount }} CHF – Karte {{ tx.card.card_code }}
+                {% if tx.reference %} ({{ tx.reference }}){% endif %}
+            </li>
+        {% empty %}
+            <li>Noch keine Transaktionen.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- QR-Scanner über html5-qrcode (CDN) -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`QR erkannt: ${decodedText}`);
+
+            // in beide Kartencode-Felder schreiben, falls vorhanden
+            const redeemInput = document.getElementById("redeem_card_code");
+            const balanceInput = document.getElementById("balance_card_code");
+
+            if (redeemInput) {
+                redeemInput.value = decodedText;
+            }
+            if (balanceInput) {
+                balanceInput.value = decodedText;
+            }
+
+            const resultDiv = document.getElementById("qr-result");
+            if (resultDiv) {
+                resultDiv.innerText = "Gelesener Kartencode: " + decodedText;
+            }
+        }
+
+        function onScanFailure(error) {
+            // Fehler beim Scan – hier reicht es, leise zu sein
+        }
+
+        // Scanner initialisieren
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader",
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            false
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+</body>
+</html>
+
