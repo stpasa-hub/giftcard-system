@@ -22,10 +22,11 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-secret-key-nur-lokal")
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
-).split(",")
+ALLOWED_HOSTS = [
+    "giftcard-system.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 
@@ -72,7 +73,7 @@ ROOT_URLCONF = 'giftcard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
