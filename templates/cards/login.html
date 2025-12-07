@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Händler-Login – Stadtbon{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white text-center">
+        <h5 class="mb-0">Händler-Login</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">
+          Zugang für Mitgliedsbetriebe des Gewerbevereins Stein am Rhein zur Einlösung der Stadtbon-Geschenkkarten.
+        </p>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="id_username" class="form-label">Benutzername</label>
+            <input type="text" name="username" class="form-control" id="id_username" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label for="id_password" class="form-label">Passwort</label>
+            <input type="password" name="password" class="form-control" id="id_password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            Anmelden
+          </button>
+        </form>
+      </div>
+      <div class="card-footer text-center text-muted small">
+        Bei Fragen bitte Kontakt über den Gewerbeverein Stein am Rhein aufnehmen.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}Stadtbon-Kassenterminal – {{ merchant.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- Kopfzeile -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="mb-0">Stadtbon-Kassenterminal</h2>
+      <p class="text-muted mb-0">
+        Betrieb: <strong>{{ merchant.name }}</strong>
+        {% if merchant.address %}<br><span class="small">{{ merchant.address }}</span>{% endif %}
+      </p>
+    </div>
+    <div class="col-auto text-end d-flex align-items-center">
+      <span class="badge bg-success-subtle text-success border border-success-subtle">
+        Online
+      </span>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Linke Spalte: Formulare -->
+    <div class="col-lg-6">
+      <!-- Kartenguthaben prüfen -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Guthaben prüfen</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small">
+            Kartencode manuell eingeben oder per QR-Scan erfassen, um das aktuelle Guthaben anzuzeigen.
+          </p>
+          <form method="post" action="{% url 'balance' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_balance_card_code" class="form-label">Kartencode</label>
+              <input type="text"
+                     name="card_code"
+                     id="id_balance_card_code"
+                     class="form-control"
+                     placeholder="Kartencode oder gescannter Wert"
+                     required>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+              Guthaben anzeigen
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Zahlung / Einlösung -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Betrag einlösen</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small">
+            Einlösung einer Zahlung mit Stadtbon. Der Betrag wird vom Kartenguthaben abgezogen und für Ihren Betrieb verbucht.
+          </p>
+          <form method="post" action="{% url 'redeem' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_redeem_card_code" class="form-label">Kartencode</label>
+              <input type="text"
+                     name="card_code"
+                     id="id_redeem_card_code"
+                     class="form-control"
+                     placeholder="Kartencode oder gescannter Wert"
+                     required>
+            </div>
+            <div class="mb-3">
+              <label for="id_redeem_amount" class="form-label">Betrag (CHF)</label>
+              <input type="number"
+                     step="0.05"
+                     min="0"
+                     name="amount"
+                     id="id_redeem_amount"
+                     class="form-control"
+                     placeholder="z.B. 25.00"
+                     required>
+            </div>
+            <div class="mb-3">
+              <label for="id_redeem_reference" class="form-label">
+                Referenz / Belegnummer (optional)
+              </label>
+              <input type="text"
+                     name="reference"
+                     id="id_redeem_reference"
+                     class="form-control"
+                     placeholder="z.B. Kassenbon- oder Transaktions-Nr.">
+            </div>
+            <button type="submit" class="btn btn-success">
+              Betrag einlösen
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechte Spalte: QR-Scanner + Transaktionen -->
+    <div class="col-lg-6">
+      <!-- QR-Scanner -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">QR-Scanner (optional)</h5>
+          <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle small">
+            Beta
+          </span>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small">
+            Wenn die Geschenkkarten als QR-Code vorliegen, kann hiermit der Kartencode direkt in die Felder übernommen werden.
+          </p>
+          <div class="mb-3">
+            <div id="qr-reader" style="width: 100%; max-width: 400px; margin: 0 auto;"></div>
+          </div>
+          <div class="small text-muted">
+            Tipp: Am besten ein Tablet oder Smartphone mit guter Kamera verwenden.
+          </div>
+        </div>
+      </div>
+
+      <!-- Letzte Transaktionen -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Letzte Transaktionen</h5>
+        </div>
+        <div class="card-body p-0">
+          {% if transactions %}
+            <div class="list-group list-group-flush">
+              {% for t in transactions %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <div class="fw-semibold">
+                      {% if t.amount >= 0 %}+{% endif %}{{ t.amount }} CHF
+                    </div>
+                    <div class="small text-muted">
+                      Karte: {{ t.card.card_code }}<br>
+                      {% if t.reference %}Ref.: {{ t.reference }} · {% endif %}
+                      {{ t.created_at|date:"d.m.Y H:i" }}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-muted small m-3">
+              Noch keine Transaktionen erfasst.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- QR-Code Scanner via CDN -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const qrRegionId = "qr-reader";
+    if (!document.getElementById(qrRegionId)) return;
+
+    function onScanSuccess(decodedText, decodedResult) {
+      // Kartencode in beide Felder schreiben (Guthaben + Einlösung)
+      const balanceInput = document.getElementById("id_balance_card_code");
+      const redeemInput = document.getElementById("id_redeem_card_code");
+      if (balanceInput) balanceInput.value = decodedText;
+      if (redeemInput) redeemInput.value = decodedText;
+    }
+
+    function onScanError(errorMessage) {
+      // Hier bewusst ruhig, sonst flackert die Konsole
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      qrRegionId,
+      { fps: 10, qrbox: 250 }
+    );
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+  });
+</script>
+{% endblock %}
+
