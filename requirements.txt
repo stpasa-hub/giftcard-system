@@ -1,9 +1,7 @@
-Django==6.0.0
-dj-database-url==X.Y.Z
-psycopg2-binary==X.Y.Z
-gunicorn==X.Y.Z
-Django
-dj-database-url
-psycopg2-binary
-gunicorn
-
+asgiref==3.11.0
+dj-database-url==3.0.1
+Django==5.2.9
+gunicorn==23.0.0
+packaging==25.0
+psycopg2-binary==2.9.11
+sqlparse==0.5.4
