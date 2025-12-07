@@ -159,43 +159,28 @@ def redeem_view(request):
 def balance_view(request):
     """
     Guthaben einer Karte abfragen.
-    Zeigt Ergebnis auf cards/verify.html.
+    Ergebnis wird als Message im Dashboard angezeigt.
     """
-    if request.method != "POST":
-        return redirect("merchant_dashboard")
+    merchant = Merchant.objects.get(user=request.user)
 
-    form = BalanceCheckForm(request.POST)
-    if not form.is_valid():
-        error = "Formular ungültig."
-        return render(
-            request,
-            "cards/verify.html",
-            {"card": None, "error": error},
-        )
+    if request.method == "POST":
+        form = BalanceCheckForm(request.POST)
+        if form.is_valid():
+            card_code = form.cleaned_data["card_code"]
+            try:
+                card = Card.objects.get(card_code=card_code, active=True)
+            except Card.DoesNotExist:
+                messages.error(request, "Karte nicht gefunden oder inaktiv.")
+            else:
+                now = timezone.now()
+                if card.expires_at < now:
+                    messages.warning(request, "Karte ist abgelaufen.")
+                messages.info(
+                    request,
+                    f"Guthaben von Karte {card.card_code}: {card.current_amount} CHF"
+                )
+        else:
+            messages.error(request, "Formular ungültig.")
 
-    card_code = form.cleaned_data["card_code"]
-
-    try:
-        card = Card.objects.get(card_code=card_code, active=True)
-    except Card.DoesNotExist:
-        error = "Karte nicht gefunden oder inaktiv."
-        return render(
-            request,
-            "cards/verify.html",
-            {"card": None, "error": error},
-        )
-
-    error = None
-    now = timezone.now()
-    if card.expires_at < now:
-        error = "Karte ist abgelaufen."
-
-    return render(
-        request,
-        "cards/verify.html",
-        {
-            "card": card,
-            "error": error,
-        },
-    )
+    return redirect("merchant_dashboard")
 
