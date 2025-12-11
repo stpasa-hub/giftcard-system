@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Einlösung{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">💸 Karteneinlösung</h3>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% else %}
+  <div class="alert alert-success">
+    {{ amount }} CHF wurden erfolgreich von Karte
+    <strong>{{ card.card_code|slice:":8" }}…</strong> eingelöst.
+  </div>
+  <p>Neuer Saldo: <strong>{{ card.current_amount }} CHF</strong></p>
+{% endif %}
+
+<a href="{% url 'merchant_dashboard' %}" class="btn btn-secondary mt-3">
+  Zurück zum Kassensystem
+</a>
+{% endblock %}

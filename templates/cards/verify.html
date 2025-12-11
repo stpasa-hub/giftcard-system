@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Guthaben prüfen{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">🔍 Guthabenprüfung</h3>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% else %}
+  <div class="alert alert-info">
+    Karte <strong>{{ card.card_code|slice:":8" }}…</strong><br>
+    Aktueller Saldo: <strong>{{ card.current_amount }} CHF</strong><br>
+    Ursprungsbetrag: {{ card.initial_amount }} CHF<br>
+    Gültig bis: {{ card.expires_at|date:"d.m.Y" }}
+  </div>
+{% endif %}
+
+<a href="{% url 'merchant_dashboard' %}" class="btn btn-secondary mt-3">
+  Zurück zum Kassensystem
+</a>
+{% endblock %}

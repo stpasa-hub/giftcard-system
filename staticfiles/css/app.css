@@ -1,0 +1,26 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* leicht abgesetzter Card-Stil */
+.card {
+  border-radius: 0.6rem;
+}
+
+/* Badge-Soft-Varianten (Bootstrap 5 hat die noch nicht überall) */
+.bg-success-subtle {
+  background-color: #e6f4ea !important;
+}
+.text-success {
+  color: #1e7d3b !important;
+}
+.border-success-subtle {
+  border-color: #c4e2cd !important;
+}
+
+.bg-secondary-subtle {
+  background-color: #f3f4f6 !important;
+}
+.border-secondary-subtle {
+  border-color: #e1e4eb !important;
+}

@@ -1,16 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
-
-
-def root_redirect(request):
-    # Startseite direkt zum Händler-Login
-    return redirect("merchant_login")
-
+from cards import views as cards_views
 
 urlpatterns = [
-    path("", root_redirect, name="root"),
+    # Admin-Backend
     path("admin/", admin.site.urls),
-    path("merchant/", include("cards.urls")),
+
+    # Öffentliche Landingpage unter /
+    path("", cards_views.landing_page, name="landing"),
+
+    # Händler-Bereich unter /merchant/...
+    path("merchant/", include(("cards.urls", "cards"), namespace="cards")),
 ]
 
