@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}System-Infos – Geschenkkarte{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="mb-4">Infos für Vorstand & Projekt</h1>
+
+  <p class="lead">
+    Diese Seite dient als Übersicht über den aktuellen Stand des Geschenkkartensystems
+    für Vorstand, Projektteam und externe Partner.
+  </p>
+
+  <hr class="my-4">
+
+  <h2 class="h5 mt-4">Technischer Stand</h2>
+  <ul>
+    <li>Django-basiertes Backend (Testbetrieb)</li>
+    <li>Händler-Login mit Dashboard, Einlösung & Guthabenabfrage</li>
+    <li>Admin-Backend über <code>/admin/</code></li>
+  </ul>
+
+  <h2 class="h5 mt-4">Nächste Schritte</h2>
+  <ul>
+    <li>Testphase mit ausgewählten Händler:innen</li>
+    <li>Definition der Abrechnungsprozesse im Vorstand</li>
+    <li>Feinschliff Frontend / Texte / Branding</li>
+  </ul>
+
+  <p class="mt-4">
+    Für Detailfragen, Anpassungen oder Erweiterungen bitte an Stefano / Projektleitung wenden.
+  </p>
+</div>
+{% endblock %}

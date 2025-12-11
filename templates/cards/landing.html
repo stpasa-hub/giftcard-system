@@ -6,96 +6,111 @@
 {% block content %}
 <div class="container py-5">
 
-    <!-- Header mit Logo -->
+    <!-- Logo & Titel -->
     <div class="text-center mb-5">
-        <img src="{% static 'img/gv-stein-logo.png' %}" alt="Gewerbeverein Stein am Rhein"
-             class="img-fluid mb-3" style="max-height: 120px;">
+        <img src="{% static 'img/gv-stein-logo.png' %}"
+             alt="Gewerbeverein Stein am Rhein"
+             class="img-fluid mb-3"
+             style="max-height: 120px;">
         <h1 class="fw-bold">Gewerbegutschein Stein am Rhein</h1>
         <p class="lead text-muted">
-            Das lokale Gutscheinsystem für Stein am Rhein – einfach, transparent und komplett im Vereinsbesitz.
+            Digitale Gutscheine für das lokale Gewerbe – verwaltet direkt durch den Gewerbeverein.
         </p>
     </div>
 
-    <!-- Zwei Spalten: Für Käufer und für Händler -->
+    <!-- Drei Haupt-Karten: Käufer, Händler, Verein -->
     <div class="row g-4 mb-5">
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Für Käufer:innen</h3>
-                    <p class="card-text">
-                        Kaufen Sie Guthabenkarten, verschenken Sie lokale Einkaufskraft und unterstützen Sie direkt
-                        das Gewerbe in Stein am Rhein.
+
+        <!-- Für Käufer / Öffentlichkeit -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="h5 card-title">Für Käufer:innen</h3>
+                    <p class="card-text flex-grow-1">
+                        Gewerbegutscheine unterstützen die lokalen Betriebe in Stein am Rhein.
+                        Sie sind bei vielen Mitgliedern des Gewerbevereins einlösbar.
                     </p>
-                    <ul>
-                        <li>Guthabenkarte bei Verkaufsstellen erwerben</li>
-                        <li>Bei teilnehmenden Betrieben wie mit einer Karte bezahlen</li>
-                        <li>Restguthaben bleibt auf der Karte</li>
+                    <ul class="small">
+                        <li>Lokal einkaufen statt online-Riese</li>
+                        <li>Ideal als Geschenk</li>
+                        <li>Direkte Wirkung für die Region</li>
                     </ul>
-                    <p class="text-muted mb-0">
-                        In der finalen Version können Sie hier Guthaben online kaufen und verwalten.
+                    <p class="mt-3 mb-0 text-muted small">
+                        (Öffentliche Online-Verkaufsseite kann später ergänzt werden.)
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Für Händler:innen</h3>
-                    <p class="card-text">
-                        Einfaches Kassensystem im Browser – keine zusätzliche Hardware nötig, nur Internetzugang.
+        <!-- Für Händler -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="h5 card-title">Für Betriebe / Händler</h3>
+                    <p class="card-text flex-grow-1">
+                        Einfache Einlösung von Gutscheinen über eine Weboberfläche
+                        – optimiert für Tablet, PC oder Smartphone.
                     </p>
-                    <ul>
-                        <li>Guthaben einlösen mit Kartencode oder QR-Code</li>
-                        <li>Letzte Transaktionen im Überblick</li>
-                        <li>Saubere Abrechnung durch den Gewerbeverein</li>
+                    <ul class="small">
+                        <li>Login pro Betrieb</li>
+                        <li>Guthaben einlösen</li>
+                        <li>Letzte Transaktionen einsehen</li>
                     </ul>
-                    <a href="{% url 'merchant_login' %}" class="btn btn-primary">
-                        Zum Händler-Login
+                    <a href="{% url 'merchant_login' %}" class="btn btn-primary mt-2">
+                        Händler-Login
                     </a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Info-Kacheln -->
-    <div class="row g-4">
+        <!-- Für Verein / Vorstand -->
         <div class="col-md-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Warum eigene Lösung?</h5>
-                    <p class="card-text">
-                        Die bisherige Drittanbieter-Lösung hat wiederholt zu Problemen bei Ein- und Auszahlungen
-                        geführt. Diese neue Lösung liegt vollständig beim Gewerbeverein Stein am Rhein – transparent und kontrollierbar.
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="h5 card-title">Für den Gewerbeverein</h3>
+                    <p class="card-text flex-grow-1">
+                        Volle Kontrolle über Karten, Händler und Einlösungen. Keine Abhängigkeit
+                        mehr von externen Anbietern für Ein- und Auszahlungen.
                     </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Aktueller Stand</h5>
-                    <p class="card-text">
-                        Dies ist eine Testversion für den Vorstand und ausgewählte Betriebe.
-                        Die Funktionen Einlösung, Transaktionshistorie und Händler-Login sind bereits aktiv.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h5 class="card-title">Nächste Schritte</h5>
-                    <p class="card-text">
-                        Anbindung der Buchhaltung, automatisierte Auszahlungsberichte und Erweiterung zum
-                        Bonus-/Treueprogramm können in einem nächsten Schritt aufgebaut werden.
-                    </p>
+                    <ul class="small">
+                        <li>Verwaltung von Karten & Gutscheinen</li>
+                        <li>Transaktionsübersicht</li>
+                        <li>Grundlage für Abrechnungen & Revision</li>
+                    </ul>
+                    <div class="d-grid gap-2 mt-2">
+                        <a href="/admin/" class="btn btn-outline-success">
+                            Admin-Backend
+                        </a>
+                        <a href="{% url 'system_info' %}" class="btn btn-outline-secondary">
+                            Infos für Vorstand / Projekt
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bereich: Wie geht es weiter? -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="alert alert-light border shadow-sm">
+                <h2 class="h5 mb-3">Projektstatus & nächste Schritte</h2>
+                <p class="mb-2">
+                    Diese Plattform ist derzeit als <strong>Testsystem</strong> für den Vorstand
+                    und ausgewählte Betriebe im Einsatz. Ziel ist die Ablösung der bestehenden
+                    Gutstein-/CompanyON-Lösung.
+                </p>
+                <ul class="mb-2">
+                    <li>Testbetrieb mit Pilot-Händlern</li>
+                    <li>Überprüfung der Abrechnungsprozesse</li>
+                    <li>Schrittweise Erweiterung (Bonusprogramm, Online-Kauf, Auswertungen)</li>
+                </ul>
+                <p class="mb-0 small text-muted">
+                    Ansprechpartner: Stefano Pasa, Gewerbeverein Stein am Rhein.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
+

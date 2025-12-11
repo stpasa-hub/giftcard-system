@@ -1,0 +1,12 @@
+bonus_points = int(amount * 1)  # z.B. 1 Punkt pro 1 CHF
+
+account = BonusAccount.objects.get(card=card)
+account.points += bonus_points
+account.save()
+
+BonusTransaction.objects.create(
+    account=account,
+    points=bonus_points,
+    reason=f"Kauf bei {merchant.name}",
+    merchant=merchant
+)

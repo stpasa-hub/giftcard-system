@@ -10,11 +10,13 @@ from .forms import RedeemForm, BalanceCheckForm
 
 
 def landing_page(request):
-    """
-    Öffentliche Landing-Page für das Geschenkkartensystem.
-    """
     return render(request, "cards/landing.html")
 
+def system_info(request):
+    """
+    Info-Seite für Vorstand / Projekt – Platzhalter.
+    """
+    return render(request, "cards/system_info.html")
 
 def merchant_login(request):
     """
@@ -33,7 +35,7 @@ def merchant_login(request):
                 messages.error(request, "Diesem Benutzer ist kein Händlerkonto zugeordnet.")
             else:
                 login(request, user)
-                return redirect("cards:merchant_dashboard")
+                return redirect("merchant_dashboard")
         else:
             messages.error(request, "Login fehlgeschlagen. Bitte Zugangsdaten prüfen.")
 
@@ -42,7 +44,7 @@ def merchant_login(request):
 
 def merchant_logout(request):
     logout(request)
-    return redirect("cards:merchant_login")
+    return redirect("merchant_login")
 
 
 @login_required
@@ -114,7 +116,7 @@ def redeem_view(request):
         else:
             messages.error(request, "Formular ungültig.")
 
-    return redirect("cards:merchant_dashboard")
+    return redirect("merchant_dashboard")
 
 
 @login_required
@@ -154,4 +156,4 @@ def balance_view(request):
         )
 
     # Falls jemand ohne POST auf /balance/ kommt, zurück ins Dashboard:
-    return redirect("cards:merchant_dashboard")
+    return redirect("merchant_dashboard")
