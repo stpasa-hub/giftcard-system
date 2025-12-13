@@ -1,13 +1,21 @@
-self.addEventListener("install", event => {
-  // Hier könnte man Assets cachen – für den Anfang reicht ein leerer SW
-  self.skipWaiting();
+const CACHE_NAME = "gutSTEIN_v2";
+const URLS_TO_CACHE = [
+  "/",
+  "/bonus/",
+  "/static/cards/manifest.webmanifest"
+];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(URLS_TO_CACHE))
+  );
 });
 
-self.addEventListener("activate", event => {
-  // Cleanup / zukünftige Cache-Strategien
-});
-
-self.addEventListener("fetch", event => {
-  // Standard: alles normal durch das Netz
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
 });
 

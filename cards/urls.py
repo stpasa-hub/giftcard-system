@@ -9,5 +9,6 @@ urlpatterns = [
     path("", views.merchant_dashboard, name="merchant_dashboard"),
     path("redeem/", views.redeem_view, name="redeem"),
     path("balance/", views.balance_view, name="balance"),
+    path("bonus-center/", views.bonus_center, name="bonus_center"),
 ]
 

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Bonus & Guthaben prüfen{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="mb-4">Bonus & Guthaben prüfen</h1>
+
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-md-6">
+      <label for="id_card_code" class="form-label">Kartencode</label>
+      {{ form.card_code }}
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Anzeigen</button>
+    </div>
+  </form>
+
+  {% if form.is_bound %}
+    {% if card %}
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Karte {{ card.card_code }}</h5>
+          <p class="card-text mb-1"><strong>Guthaben:</strong> {{ card.current_amount }} CHF</p>
+          <p class="card-text mb-0"><strong>Bonuspunkte:</strong> {{ card.bonus_points }}</p>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-danger">
+        Karte nicht gefunden oder inaktiv.
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

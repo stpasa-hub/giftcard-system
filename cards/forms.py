@@ -1,27 +1,32 @@
 from django import forms
 
+
 class RedeemForm(forms.Form):
     card_code = forms.CharField(
         label="Kartencode",
-        max_length=64,
-        widget=forms.TextInput(attrs={"id": "redeem_card_code"})
+        max_length=32,
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     amount = forms.DecimalField(
-        label="Betrag (CHF)",
-        max_digits=10,
-        decimal_places=2
+        label="Betrag",
+        max_digits=8,
+        decimal_places=2,
+        widget=forms.NumberInput(attrs={"class": "form-control"})
     )
     reference = forms.CharField(
-        label="Referenz / Belegnummer",
-        max_length=255,
-        required=False
+        label="Referenz",
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
 
 class BalanceCheckForm(forms.Form):
     card_code = forms.CharField(
         label="Kartencode",
-        max_length=64,
-        widget=forms.TextInput(attrs={"id": "balance_card_code"})
+        max_length=32,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Kartencode eingeben"
+        })
     )
 
